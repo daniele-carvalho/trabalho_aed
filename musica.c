@@ -3,14 +3,17 @@
 #include <string.h>
 #include "musica.h"
 
-void cadastrarMusica(int codigo, char titulo[], char artista[], int ano){
+void cadastrarMusica(int codigo, char titulo[], char artista[], int ano)
+{
     FILE *fmusica;
     estruturaMusica cab;
-    Musica m;
+    Musica m, aux;
+    int novaPos, atual;
 
     fmusica = fopen("musica.bin", "r+b");
 
-    if (fmusica == NULL){
+    if (fmusica == NULL)
+    {
         fmusica = fopen("musica.bin", "w+b");
 
         cab.cabeca = -1;
@@ -19,11 +22,14 @@ void cadastrarMusica(int codigo, char titulo[], char artista[], int ano){
 
         fwrite(&cab, sizeof(estruturaMusica), 1, fmusica);
         fflush(fmusica);
-    } else {
+    }
+    else
+    {
         fread(&cab, sizeof(estruturaMusica), 1, fmusica);
     }
 
-    if (buscarMusica(codigo) != -1){
+    if (buscarMusica(codigo) != -1)
+    {
         printf("Musica ja cadastrada.\n");
         fclose(fmusica);
         return;
@@ -33,17 +39,52 @@ void cadastrarMusica(int codigo, char titulo[], char artista[], int ano){
     strcpy(m.titulo, titulo);
     strcpy(m.artista, artista);
     m.ano = ano;
+    m.prox = -1;
 
-    m.prox = cab.cabeca;
+    novaPos = cab.topo;
 
+    /* grava a nova música no final do arquivo */
     fseek(
         fmusica,
-        sizeof(estruturaMusica) + cab.topo * sizeof(Musica),
+        sizeof(estruturaMusica) + novaPos * sizeof(Musica),
         SEEK_SET);
 
     fwrite(&m, sizeof(Musica), 1, fmusica);
 
-    cab.cabeca = cab.topo;
+    /* lista vazia */
+    if (cab.cabeca == -1)
+    {
+        cab.cabeca = novaPos;
+    }
+    else
+    {
+        atual = cab.cabeca;
+
+        while (1)
+        {
+            fseek(
+                fmusica,
+                sizeof(estruturaMusica) + atual * sizeof(Musica),
+                SEEK_SET);
+
+            fread(&aux, sizeof(Musica), 1, fmusica);
+
+            if (aux.prox == -1)
+                break;
+
+            atual = aux.prox;
+        }
+
+        aux.prox = novaPos;
+
+        fseek(
+            fmusica,
+            sizeof(estruturaMusica) + atual * sizeof(Musica),
+            SEEK_SET);
+
+        fwrite(&aux, sizeof(Musica), 1, fmusica);
+    }
+
     cab.topo++;
 
     fseek(fmusica, 0, SEEK_SET);
@@ -111,6 +152,50 @@ void imprimeDadosMusica(int codigo){
     printf("Título : %s\n", m.titulo);
     printf("Artista: %s\n", m.artista);
     printf("Ano: %d\n", m.ano);
+
+    fclose(arq);
+}
+
+void listarAcervo(){
+    FILE *arq;
+    estruturaMusica cab;
+    Musica m;
+    int pos;
+
+    arq = fopen("musica.bin", "rb");
+
+    if (arq == NULL){
+        printf("Arquivo nao encontrado.\n");
+        return;
+    }
+
+    fread(&cab, sizeof(estruturaMusica), 1, arq);
+
+    if (cab.cabeca == -1){
+        printf("Acervo vazio.\n");
+        fclose(arq);
+        return;
+    }
+
+    printf("\n===== ACERVO DE MUSICAS =====\n");
+
+    pos = cab.cabeca;
+
+    while (pos != -1){
+        fseek(arq,
+              sizeof(estruturaMusica) + pos * sizeof(Musica),
+              SEEK_SET);
+
+        fread(&m, sizeof(Musica), 1, arq);
+
+        printf("\nCodigo : %d\n", m.codigo);
+        printf("Titulo : %s\n", m.titulo);
+        printf("Artista: %s\n", m.artista);
+        printf("Ano    : %d\n", m.ano);
+        printf("----------------------------\n");
+
+        pos = m.prox;
+    }
 
     fclose(arq);
 }

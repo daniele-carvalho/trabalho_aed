@@ -19,7 +19,7 @@ int main(){
         printf("09 - Imprimir a lista de playlist\n");
         printf("10 - Carregar arquivo\n");
         printf("11 - Imprimir nós livres\n");
-        printf("00 - Fechar menu\n");
+        printf("0 - Fechar menu\n");
 
         scanf("%d", &menu);
         scanf("%*c");
@@ -70,6 +70,14 @@ int main(){
         }
 
         case 3:
+        {
+            listarAcervo();
+        
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
+        
         case 4:
         case 5:
         case 6:

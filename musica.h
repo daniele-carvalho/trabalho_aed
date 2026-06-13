@@ -18,5 +18,6 @@ typedef struct{
 void cadastrarMusica(int codigo, char titulo[], char artista[], int ano);
 int buscarMusica(int codigo);
 void imprimeDadosMusica(int codigo);
+void listarAcervo();
 
 #endif
