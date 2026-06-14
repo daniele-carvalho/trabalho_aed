@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "musica.h"
+#include "../includes/musica.h"
 
 void cadastrarMusica(int codigo, char titulo[], char artista[], int ano)
 {

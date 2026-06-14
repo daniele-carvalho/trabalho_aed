@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "faixa.h"
-#include "playlist.h"
-#include "musica.h"
+#include "../includes/faixa.h"
+#include "../includes/playlist.h"
+#include "../includes/musica.h"
 
 static int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
 {

@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "arquivo.h"
-#include "musica.h"
-#include "playlist.h"
-#include "faixa.h"
+#include "../includes/arquivo.h"
+#include "../includes/musica.h"
+#include "../includes/playlist.h"
+#include "../includes/faixa.h"
 
 /*
  * Propósito: Remove espaços em branco do início e fim de uma string

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "playlist.h"
-#include "faixa.h"
-#include "musica.h"
+#include "../includes/playlist.h"
+#include "../includes/faixa.h"
+#include "../includes/musica.h"
 
 /*
  * Propósito: Imprime todas as músicas de uma playlist específica
