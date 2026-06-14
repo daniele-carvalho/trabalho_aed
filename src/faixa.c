@@ -10,8 +10,7 @@ static int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
     int pos;
     Faixa f;
 
-    if(cab->livres == -1)
-    {
+    if(cab->livres == -1){
         pos = cab->topo;
         cab->topo++;
         return pos;
@@ -19,9 +18,7 @@ static int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
 
     pos = cab->livres;
 
-    fseek(arq,
-          sizeof(CabecalhoFaixa) + pos * sizeof(Faixa),
-          SEEK_SET);
+    fseek(arq,sizeof(CabecalhoFaixa) + pos * sizeof(Faixa),SEEK_SET);
 
     fread(&f, sizeof(Faixa), 1, arq);
 
@@ -35,8 +32,7 @@ static int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
  * Pré-condição: Playlist e música existem
  * Pós-condição: Música adicionada no início da lista de faixas
  */
-void adicionarMusicaInicio(int codPlaylist, int codMusica)
-{
+void adicionarMusicaInicio(int codPlaylist, int codMusica){
     FILE *fFaixa;
     FILE *fPlay;
 
@@ -47,62 +43,50 @@ void adicionarMusicaInicio(int codPlaylist, int codMusica)
     int posNova;
     int encontrou = 0;
 
-    if(buscarMusica(codMusica) == -1)
-    {
+    if(buscarMusica(codMusica) == -1){
         printf("Musica nao encontrada no acervo.\n");
         return;
     }
 
     posPlaylist = buscarPlaylist(codPlaylist);
 
-    if(posPlaylist == -1)
-    {
+    if(posPlaylist == -1){
         printf("Playlist nao encontrada.\n");
         return;
     }
 
     fFaixa = fopen("faixas.bin","r+b");
 
-    if(fFaixa == NULL)
-    {
+    if(fFaixa == NULL){
         fFaixa = fopen("faixas.bin","w+b");
 
         cab.topo = 0;
         cab.livres = -1;
 
         fwrite(&cab,sizeof(CabecalhoFaixa),1,fFaixa);
-    }
-    else
-    {
+    }else{
         fread(&cab,sizeof(CabecalhoFaixa),1,fFaixa);
     }
 
     fPlay = fopen("playlist.bin","r+b");
 
-    fseek(fPlay,
-          sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),
-          SEEK_SET);
+    fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
 
     fread(&p,sizeof(Playlist),1,fPlay);
 
     // Verificar se a música já está na playlist
     int posAtual = p.inicioFaixas;
-    while(posAtual != -1 && !encontrou)
-    {
-        fseek(fFaixa,
-              sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),
-              SEEK_SET);
+    while(posAtual != -1 && !encontrou){
+        fseek(fFaixa,sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),SEEK_SET);
         fread(&atual, sizeof(Faixa), 1, fFaixa);
         
-        if(atual.codigoMusica == codMusica)
-        {
+        if(atual.codigoMusica == codMusica){
             encontrou = 1;
         }
         posAtual = atual.prox;
     }
 
-    if(encontrou)
-    {
+    if(encontrou){
         printf("Musica ja existe na playlist.\n");
         fclose(fPlay);
         fclose(fFaixa);
@@ -114,10 +98,7 @@ void adicionarMusicaInicio(int codPlaylist, int codMusica)
     nova.codigoMusica = codMusica;
     nova.prox = p.inicioFaixas;
 
-    fseek(fFaixa,
-          sizeof(CabecalhoFaixa) + posNova * sizeof(Faixa),
-          SEEK_SET);
-
+    fseek(fFaixa,sizeof(CabecalhoFaixa) + posNova * sizeof(Faixa),SEEK_SET);
     fwrite(&nova,sizeof(Faixa),1,fFaixa);
 
     p.inicioFaixas = posNova;
@@ -125,10 +106,7 @@ void adicionarMusicaInicio(int codPlaylist, int codMusica)
     if(p.fimFaixas == -1)
         p.fimFaixas = posNova;
 
-    fseek(fPlay,
-          sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),
-          SEEK_SET);
-
+    fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fwrite(&p,sizeof(Playlist),1,fPlay);
 
     fseek(fFaixa,0,SEEK_SET);
@@ -145,11 +123,9 @@ void adicionarMusicaInicio(int codPlaylist, int codMusica)
  * Pré-condição: Playlist e música existem
  * Pós-condição: Música adicionada no final da lista de faixas
  */
-void adicionarMusicaFim(int codPlaylist, int codMusica)
-{
+void adicionarMusicaFim(int codPlaylist, int codMusica){
     FILE *fFaixa;
     FILE *fPlay;
-
     CabecalhoFaixa cab;
     Playlist p;
     Faixa nova, atual;
@@ -157,62 +133,47 @@ void adicionarMusicaFim(int codPlaylist, int codMusica)
     int posNova;
     int encontrou = 0;
 
-    if(buscarMusica(codMusica) == -1)
-    {
+    if(buscarMusica(codMusica) == -1){
         printf("Musica nao encontrada no acervo.\n");
         return;
     }
-
     posPlaylist = buscarPlaylist(codPlaylist);
 
-    if(posPlaylist == -1)
-    {
+    if(posPlaylist == -1){
         printf("Playlist nao encontrada.\n");
         return;
     }
-
     fFaixa = fopen("faixas.bin","r+b");
 
-    if(fFaixa == NULL)
-    {
+    if(fFaixa == NULL){
         fFaixa = fopen("faixas.bin","w+b");
 
         cab.topo = 0;
         cab.livres = -1;
 
         fwrite(&cab,sizeof(CabecalhoFaixa),1,fFaixa);
-    }
-    else
-    {
+    }else{
         fread(&cab,sizeof(CabecalhoFaixa),1,fFaixa);
     }
-
     fPlay = fopen("playlist.bin","r+b");
 
-    fseek(fPlay,
-          sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),
-          SEEK_SET);
-
+    fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fread(&p,sizeof(Playlist),1,fPlay);
 
     // Verificar se a música já está na playlist
     int posAtual = p.inicioFaixas;
-    while(posAtual != -1 && !encontrou)
-    {
+    while(posAtual != -1 && !encontrou){
         fseek(fFaixa,
-              sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),
-              SEEK_SET);
+              sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),SEEK_SET);
         fread(&atual, sizeof(Faixa), 1, fFaixa);
         
-        if(atual.codigoMusica == codMusica)
-        {
+        if(atual.codigoMusica == codMusica){
             encontrou = 1;
         }
         posAtual = atual.prox;
     }
 
-    if(encontrou)
-    {
+    if(encontrou){
         printf("Musica ja existe na playlist.\n");
         fclose(fPlay);
         fclose(fFaixa);
@@ -224,40 +185,25 @@ void adicionarMusicaFim(int codPlaylist, int codMusica)
     nova.codigoMusica = codMusica;
     nova.prox = -1;
 
-    fseek(fFaixa,
-          sizeof(CabecalhoFaixa) + posNova * sizeof(Faixa),
-          SEEK_SET);
-
+    fseek(fFaixa,sizeof(CabecalhoFaixa) + posNova * sizeof(Faixa),SEEK_SET);
     fwrite(&nova,sizeof(Faixa),1,fFaixa);
 
-    if(p.inicioFaixas == -1)
-    {
+    if(p.inicioFaixas == -1){
         p.inicioFaixas = posNova;
         p.fimFaixas = posNova;
-    }
-    else
-    {
-        fseek(fFaixa,
-              sizeof(CabecalhoFaixa) + p.fimFaixas * sizeof(Faixa),
-              SEEK_SET);
-
+    }else{
+        fseek(fFaixa,sizeof(CabecalhoFaixa) + p.fimFaixas * sizeof(Faixa),SEEK_SET);
         fread(&nova,sizeof(Faixa),1,fFaixa);
 
         nova.prox = posNova;
 
-        fseek(fFaixa,
-              sizeof(CabecalhoFaixa) + p.fimFaixas * sizeof(Faixa),
-              SEEK_SET);
-
+        fseek(fFaixa,sizeof(CabecalhoFaixa) + p.fimFaixas * sizeof(Faixa),SEEK_SET);
         fwrite(&nova,sizeof(Faixa),1,fFaixa);
 
         p.fimFaixas = posNova;
     }
 
-    fseek(fPlay,
-          sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),
-          SEEK_SET);
-
+    fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fwrite(&p,sizeof(Playlist),1,fPlay);
 
     fseek(fFaixa,0,SEEK_SET);
@@ -274,11 +220,9 @@ void adicionarMusicaFim(int codPlaylist, int codMusica)
  * Pré-condição: Playlist e música existem
  * Pós-condição: Música removida da playlist e nó adicionado à lista de livres
  */
-void removerMusicaPlaylist(int codPlaylist, int codMusica)
-{
+void removerMusicaPlaylist(int codPlaylist, int codMusica){
     FILE *fFaixa;
     FILE *fPlay;
-
     CabecalhoFaixa cab;
     Playlist p;
     Faixa atual, anterior;
@@ -289,16 +233,13 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica)
 
     posPlaylist = buscarPlaylist(codPlaylist);
 
-    if(posPlaylist == -1)
-    {
+    if(posPlaylist == -1){
         printf("Playlist nao encontrada.\n");
         return;
     }
 
     fFaixa = fopen("faixas.bin","r+b");
-
-    if(fFaixa == NULL)
-    {
+    if(fFaixa == NULL){
         printf("Arquivo de faixas nao encontrado.\n");
         return;
     }
@@ -307,14 +248,10 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica)
 
     fPlay = fopen("playlist.bin","r+b");
 
-    fseek(fPlay,
-          sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),
-          SEEK_SET);
-
+    fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fread(&p, sizeof(Playlist), 1, fPlay);
 
-    if(p.inicioFaixas == -1)
-    {
+    if(p.inicioFaixas == -1){
         printf("Playlist vazia.\n");
         fclose(fPlay);
         fclose(fFaixa);
@@ -324,26 +261,19 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica)
     // Buscar a música na playlist
     posAtual = p.inicioFaixas;
 
-    while(posAtual != -1 && !encontrou)
-    {
-        fseek(fFaixa,
-              sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),
-              SEEK_SET);
+    while(posAtual != -1 && !encontrou){
+        fseek(fFaixa,sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),SEEK_SET);
         fread(&atual, sizeof(Faixa), 1, fFaixa);
         
-        if(atual.codigoMusica == codMusica)
-        {
+        if(atual.codigoMusica == codMusica){
             encontrou = 1;
-        }
-        else
-        {
+        }else{
             posAnterior = posAtual;
             posAtual = atual.prox;
         }
     }
 
-    if(!encontrou)
-    {
+    if(!encontrou){
         printf("Musica nao encontrada na playlist.\n");
         fclose(fPlay);
         fclose(fFaixa);
@@ -351,32 +281,23 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica)
     }
 
     // Remover o nó da lista
-    if(posAnterior == -1)
-    {
+    if(posAnterior == -1){
         // Remover do início
         p.inicioFaixas = atual.prox;
-        if(p.inicioFaixas == -1)
-        {
+        if(p.inicioFaixas == -1){
             p.fimFaixas = -1;
         }
-    }
-    else
-    {
+    }else{
         // Remover do meio ou fim
-        fseek(fFaixa,
-              sizeof(CabecalhoFaixa) + posAnterior * sizeof(Faixa),
-              SEEK_SET);
+        fseek(fFaixa,sizeof(CabecalhoFaixa) + posAnterior * sizeof(Faixa),SEEK_SET);
         fread(&anterior, sizeof(Faixa), 1, fFaixa);
         
         anterior.prox = atual.prox;
         
-        fseek(fFaixa,
-              sizeof(CabecalhoFaixa) + posAnterior * sizeof(Faixa),
-              SEEK_SET);
+        fseek(fFaixa,sizeof(CabecalhoFaixa) + posAnterior * sizeof(Faixa),SEEK_SET);
         fwrite(&anterior, sizeof(Faixa), 1, fFaixa);
         
-        if(p.fimFaixas == posAtual)
-        {
+        if(p.fimFaixas == posAtual){
             p.fimFaixas = posAnterior;
         }
     }
@@ -384,17 +305,13 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica)
     // Adicionar nó removido à lista de livres
     atual.prox = cab.livres;
     
-    fseek(fFaixa,
-          sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),
-          SEEK_SET);
+    fseek(fFaixa,sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),SEEK_SET);
     fwrite(&atual, sizeof(Faixa), 1, fFaixa);
     
     cab.livres = posAtual;
 
     // Atualizar playlist
-    fseek(fPlay,
-          sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),
-          SEEK_SET);
+    fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fwrite(&p, sizeof(Playlist), 1, fPlay);
 
     // Atualizar cabeçalho das faixas
@@ -412,18 +329,15 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica)
  * Pré-condição: Nenhuma
  * Pós-condição: Posições livres impressas na tela
  */
-void imprimirNosLivres()
-{
+void imprimirNosLivres(){
     FILE *arq;
     CabecalhoFaixa cab;
     Faixa f;
     int pos;
     int count = 0;
-
     arq = fopen("faixas.bin","rb");
 
-    if(arq == NULL)
-    {
+    if(arq == NULL){
         printf("Arquivo de faixas nao existe.\n");
         return;
     }
@@ -434,21 +348,14 @@ void imprimirNosLivres()
 
     printf("\n===== NOS LIVRES =====\n");
 
-    if(pos == -1)
-    {
+    if(pos == -1){
         printf("Nenhum no livre disponivel.\n");
-    }
-    else
-    {
-        while(pos != -1)
-        {
+    }else{
+        while(pos != -1){
             printf("Posicao: %d\n", pos);
             count++;
 
-            fseek(arq,
-                  sizeof(CabecalhoFaixa) + pos * sizeof(Faixa),
-                  SEEK_SET);
-
+            fseek(arq,sizeof(CabecalhoFaixa) + pos * sizeof(Faixa),SEEK_SET);
             fread(&f, sizeof(Faixa), 1, arq);
 
             pos = f.prox;

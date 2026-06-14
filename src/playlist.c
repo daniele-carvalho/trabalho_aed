@@ -10,8 +10,7 @@
  * Pré-condição: Código da playlist válido
  * Pós-condição: Título da playlist e músicas impressos na tela
  */
-void imprimirPlaylist(int codigo)
-{
+void imprimirPlaylist(int codigo){
     FILE *arqPlay;
     FILE *arqFaixa;
     estruturaPlaylist cabPlay;
@@ -21,40 +20,32 @@ void imprimirPlaylist(int codigo)
 
     arqPlay = fopen("playlist.bin", "rb");
 
-    if(arqPlay == NULL)
-    {
+    if(arqPlay == NULL){
         printf("Arquivo de playlists nao encontrado.\n");
         return;
     }
 
     fread(&cabPlay, sizeof(estruturaPlaylist), 1, arqPlay);
-
     posPlay = cabPlay.cabeca;
 
-    while(posPlay != -1)
-    {
+    while(posPlay != -1){
         fseek(arqPlay,
               sizeof(estruturaPlaylist) + posPlay * sizeof(Playlist),
               SEEK_SET);
 
         fread(&p, sizeof(Playlist), 1, arqPlay);
 
-        if(p.codigo == codigo)
-        {
+        if(p.codigo == codigo){
             printf("\n========================================\n");
             printf("PLAYLIST: %s (Codigo: %d)\n", p.titulo, p.codigo);
             printf("========================================\n");
 
-            if(p.inicioFaixas == -1)
-            {
+            if(p.inicioFaixas == -1){
                 printf("Playlist vazia.\n");
-            }
-            else
-            {
+            }else{
                 arqFaixa = fopen("faixas.bin", "rb");
                 
-                if(arqFaixa == NULL)
-                {
+                if(arqFaixa == NULL){
                     printf("Erro ao abrir arquivo de faixas.\n");
                     fclose(arqPlay);
                     return;
@@ -66,8 +57,7 @@ void imprimirPlaylist(int codigo)
                 posFaixa = p.inicioFaixas;
                 contador = 1;
 
-                while(posFaixa != -1)
-                {
+                while(posFaixa != -1){
                     Faixa f;
                     
                     fseek(arqFaixa,
@@ -79,11 +69,9 @@ void imprimirPlaylist(int codigo)
                     // Buscar dados da música
                     int posMusica = buscarMusica(f.codigoMusica);
                     
-                    if(posMusica != -1)
-                    {
+                    if(posMusica != -1){
                         FILE *arqMus = fopen("musica.bin", "rb");
-                        if(arqMus != NULL)
-                        {
+                        if(arqMus != NULL){
                             estruturaMusica cabMus;
                             Musica m;
                             
@@ -99,9 +87,7 @@ void imprimirPlaylist(int codigo)
                             
                             fclose(arqMus);
                         }
-                    }
-                    else
-                    {
+                    }else{
                         printf("%d. Musica com codigo %d (nao encontrada no acervo)\n", 
                                contador++, f.codigoMusica);
                     }
@@ -126,8 +112,7 @@ void imprimirPlaylist(int codigo)
     fclose(arqPlay);
 }
 
-void criarPlaylist(int codigo, char titulo[])
-{
+void criarPlaylist(int codigo, char titulo[]){
     FILE *fplaylist;
     estruturaPlaylist cab;
     Playlist p, aux;
@@ -135,8 +120,7 @@ void criarPlaylist(int codigo, char titulo[])
 
     fplaylist = fopen("playlist.bin", "r+b");
 
-    if (fplaylist == NULL)
-    {
+    if (fplaylist == NULL){
         fplaylist = fopen("playlist.bin", "w+b");
 
         cab.cabeca = -1;
@@ -144,14 +128,11 @@ void criarPlaylist(int codigo, char titulo[])
 
         fwrite(&cab, sizeof(estruturaPlaylist), 1, fplaylist);
         fflush(fplaylist);
-    }
-    else
-    {
+    }else{
         fread(&cab, sizeof(estruturaPlaylist), 1, fplaylist);
     }
 
-    if (buscarPlaylist(codigo) != -1)
-    {
+    if (buscarPlaylist(codigo) != -1){
         printf("Playlist ja cadastrada.\n");
         fclose(fplaylist);
         return;
@@ -166,28 +147,17 @@ void criarPlaylist(int codigo, char titulo[])
 
     novaPos = cab.topo;
 
-    fseek(
-        fplaylist,
-        sizeof(estruturaPlaylist) + novaPos * sizeof(Playlist),
-        SEEK_SET);
+    fseek(fplaylist,sizeof(estruturaPlaylist) + novaPos * sizeof(Playlist),SEEK_SET);
 
     fwrite(&p, sizeof(Playlist), 1, fplaylist);
 
-    if (cab.cabeca == -1)
-    {
+    if (cab.cabeca == -1){
         cab.cabeca = novaPos;
-    }
-    else
-    {
+    }else{
         atual = cab.cabeca;
 
-        while (1)
-        {
-            fseek(
-                fplaylist,
-                sizeof(estruturaPlaylist) + atual * sizeof(Playlist),
-                SEEK_SET);
-
+        while (1){
+            fseek(fplaylist,sizeof(estruturaPlaylist) + atual * sizeof(Playlist),SEEK_SET);
             fread(&aux, sizeof(Playlist), 1, fplaylist);
 
             if (aux.prox == -1)
@@ -198,11 +168,7 @@ void criarPlaylist(int codigo, char titulo[])
 
         aux.prox = novaPos;
 
-        fseek(
-            fplaylist,
-            sizeof(estruturaPlaylist) + atual * sizeof(Playlist),
-            SEEK_SET);
-
+        fseek(fplaylist,sizeof(estruturaPlaylist) + atual * sizeof(Playlist),SEEK_SET);
         fwrite(&aux, sizeof(Playlist), 1, fplaylist);
     }
 
@@ -215,8 +181,7 @@ void criarPlaylist(int codigo, char titulo[])
     printf("Playlist criada com sucesso!\n");
 }
 
-int buscarPlaylist(int codigo)
-{
+int buscarPlaylist(int codigo){
     FILE *arq;
     estruturaPlaylist cab;
     Playlist p;
@@ -231,16 +196,11 @@ int buscarPlaylist(int codigo)
 
     pos = cab.cabeca;
 
-    while (pos != -1)
-    {
-        fseek(arq,
-              sizeof(estruturaPlaylist) + pos * sizeof(Playlist),
-              SEEK_SET);
-
+    while (pos != -1){
+        fseek(arq,sizeof(estruturaPlaylist) + pos * sizeof(Playlist),SEEK_SET);
         fread(&p, sizeof(Playlist), 1, arq);
 
-        if (p.codigo == codigo)
-        {
+        if (p.codigo == codigo){
             fclose(arq);
             return pos;
         }
@@ -253,8 +213,7 @@ int buscarPlaylist(int codigo)
     return -1;
 }
 
-void listarPlaylists()
-{
+void listarPlaylists(){
     FILE *arq;
     estruturaPlaylist cab;
     Playlist p;
@@ -262,16 +221,14 @@ void listarPlaylists()
 
     arq = fopen("playlist.bin", "rb");
 
-    if (arq == NULL)
-    {
+    if (arq == NULL){
         printf("Arquivo nao encontrado.\n");
         return;
     }
 
     fread(&cab, sizeof(estruturaPlaylist), 1, arq);
 
-    if (cab.cabeca == -1)
-    {
+    if (cab.cabeca == -1){
         printf("Nenhuma playlist cadastrada.\n");
         fclose(arq);
         return;
@@ -281,12 +238,8 @@ void listarPlaylists()
 
     pos = cab.cabeca;
 
-    while (pos != -1)
-    {
-        fseek(arq,
-              sizeof(estruturaPlaylist) + pos * sizeof(Playlist),
-              SEEK_SET);
-
+    while (pos != -1){
+        fseek(arq,sizeof(estruturaPlaylist) + pos * sizeof(Playlist),SEEK_SET);
         fread(&p, sizeof(Playlist), 1, arq);
 
         printf("Codigo: %d\n", p.codigo);

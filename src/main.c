@@ -10,19 +10,19 @@ int main(){
 
     do
     {
-        printf("\nSeja bem vindo.\n");
-        printf("01 - Cadastrar uma nova música\n");
-        printf("02 - Imprimir dados da música\n");
-        printf("03 - Listar acervo\n");
-        printf("04 - Criar uma playlist\n");
-        printf("05 - Adicionar uma musica do acervo no final da playlist\n");
-        printf("06 - Adicionar uma musica do acervo no inicio da playlist\n");
-        printf("07 - Remover uma música da playlist\n");
-        printf("08 - Imprimir as músicas de uma playlist\n");
-        printf("09 - Imprimir a lista de playlist\n");
-        printf("10 - Carregar arquivo\n");
-        printf("11 - Imprimir nós livres\n");
-        printf("0 - Fechar menu\n");
+        printf("\nSeja bem vindo. Escolha uma opção: \n");
+        printf("01 - Cadastrar uma nova música.\n");
+        printf("02 - Imprimir dados da música.\n");
+        printf("03 - Listar acervo.\n");
+        printf("04 - Criar uma playlist.\n");
+        printf("05 - Adicionar uma musica do acervo no final da playlist.\n");
+        printf("06 - Adicionar uma musica do acervo no inicio da playlist.\n");
+        printf("07 - Remover uma música da playlist.\n");
+        printf("08 - Imprimir as músicas de uma playlist.\n");
+        printf("09 - Imprimir a lista de playlist.\n");
+        printf("10 - Carregar arquivo.\n");
+        printf("11 - Imprimir nós livres.\n");
+        printf("0 - Fechar menu.\n");
 
         scanf("%d", &menu);
         scanf("%*c");

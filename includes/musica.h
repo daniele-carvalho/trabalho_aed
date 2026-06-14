@@ -9,8 +9,8 @@ typedef struct{
 
 typedef struct{
     int codigo;
-    char titulo[51];
-    char artista[51];
+    char titulo[50];
+    char artista[50];
     int ano;
     int prox;
 } Musica;

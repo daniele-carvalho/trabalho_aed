@@ -18,11 +18,14 @@
 cd TRABALHO
 gcc -I./includes src/*.c -o playlist_manager -Wall
 
+--- 
+
 - Compilação por arquivos:
 
 <p>cd TRABALHO</p>
 <p>gcc src/main.c src/musica.c src/playlist.c src/faixa.c src/arquivo.c</p>
 
+---
 - Executar 
 
 <p>Linux: ./a.out</p>
