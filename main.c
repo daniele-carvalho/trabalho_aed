@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "musica.h"
+#include "playlist.h"
+#include "faixa.h"
+#include "arquivo.h"
 
 int main(){
     int menu;
@@ -31,19 +34,19 @@ int main(){
             int codigo, ano;
             char titulo[51], artista[51];
 
-            printf("Digite o código da música.\n");
+            printf("Código: \n");
             scanf("%d", &codigo);
             scanf("%*c");
 
-            printf("Digite o titulo da música.\n");
+            printf("Título: \n");
             fgets(titulo, sizeof(titulo), stdin);
             titulo[strcspn(titulo, "\n")] = '\0';
 
-            printf("Digite o artista.\n");
+            printf("Artista: \n");
             fgets(artista, sizeof(artista), stdin);
             artista[strcspn(artista, "\n")] = '\0';
 
-            printf("Digite o ano de lançamento da música.\n");
+            printf("Ano: \n");
             scanf("%d", &ano);
             scanf("%*c");
 
@@ -79,17 +82,122 @@ int main(){
         }
         
         case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
-        case 11:
+        {
+            int codigo;
+            char titulo[51];
+
+            printf("Digite o codigo da playlist.\n");
+            scanf("%d", &codigo);
+            scanf("%*c");
+
+            printf("Digite o titulo da playlist.\n");
+            fgets(titulo, sizeof(titulo), stdin);
+            titulo[strcspn(titulo, "\n")] = '\0';
+
+            criarPlaylist(codigo, titulo);
+
             printf("\nPressione ENTER para continuar...");
             getchar();
             break;
+        }
+        case 5:
+        {
+            int codPlaylist, codMusica;
 
+            printf("Digite o codigo da playlist.\n");
+            scanf("%d", &codPlaylist);
+
+            printf("Digite o codigo da musica.\n");
+            scanf("%d", &codMusica);
+            scanf("%*c");
+
+            adicionarMusicaFim(codPlaylist, codMusica);
+
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
+
+        case 6:
+        {
+            int codPlaylist, codMusica;
+
+            printf("Digite o codigo da playlist.\n");
+            scanf("%d", &codPlaylist);
+
+            printf("Digite o codigo da musica.\n");
+            scanf("%d", &codMusica);
+            scanf("%*c");
+
+            adicionarMusicaInicio(codPlaylist, codMusica);
+
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
+
+        case 7:
+        {
+            int codPlaylist, codMusica;
+
+            printf("Digite o codigo da playlist.\n");
+            scanf("%d", &codPlaylist);
+
+            printf("Digite o codigo da musica.\n");
+            scanf("%d", &codMusica);
+            scanf("%*c");
+
+            removerMusicaPlaylist(codPlaylist, codMusica);
+
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
+        case 8:
+        { 
+            int codigo;
+
+            printf("Digite o codigo da playlist.\n");
+            scanf("%d", &codigo);
+            scanf("%*c");
+
+            imprimirPlaylist(codigo);
+
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
+        case 9:        
+        {
+            listarPlaylists();
+
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
+        case 10:
+        {
+            char nomeArquivo[100];
+            
+            printf("Digite o nome do arquivo de operacoes: ");
+            fgets(nomeArquivo, sizeof(nomeArquivo), stdin);
+            nomeArquivo[strcspn(nomeArquivo, "\n")] = '\0';
+            
+            carregarArquivo(nomeArquivo);
+            
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
+
+        case 11:
+        {
+            imprimirNosLivres();
+            
+            printf("\nPressione ENTER para continuar...");
+            getchar();
+            break;
+        }
         case 0:
             printf("Encerrando...\n");
             break;
