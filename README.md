@@ -9,7 +9,7 @@
 
 ## Descrição do projeto: 
 
-Sistema de gerenciamento de playlists de músicas usando listas encadeadas e arquivo binário.
+- Sistema de gerenciamento de playlists de músicas usando listas encadeadas e arquivo binário.
 
 ## Como compilar e executar
 
@@ -20,10 +20,10 @@ gcc -I./includes src/*.c -o playlist_manager -Wall
 
 - Compilação por arquivos:
 
-cd TRABALHO
-gcc src/main.c src/musica.c src/playlist.c src/faixa.c src/arquivo.c
+<p>cd TRABALHO</p>
+<p>gcc src/main.c src/musica.c src/playlist.c src/faixa.c src/arquivo.c</p>
 
 - Executar 
 
-Linux: ./a.out
-Windows: ./a.exe
+<p>Linux: ./a.out</p>
+<p>Windows: ./a.exe</p>
