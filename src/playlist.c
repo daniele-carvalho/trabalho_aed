@@ -5,11 +5,9 @@
 #include "../includes/faixa.h"
 #include "../includes/musica.h"
 
-/*
- * Propósito: Imprime todas as músicas de uma playlist específica
+/* Objetivo: Imprime todas as músicas de uma playlist específica
  * Pré-condição: Código da playlist válido
- * Pós-condição: Título da playlist e músicas impressos na tela
- */
+ * Pós-condição: Título da playlist e músicas impressos na tela*/
 void imprimirPlaylist(int codigo){
     FILE *arqPlay;
     FILE *arqFaixa;

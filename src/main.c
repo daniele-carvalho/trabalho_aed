@@ -177,7 +177,7 @@ int main(){
         }
         case 10:
         {
-            char nomeArquivo[100];
+            char nomeArquivo[50];
             
             printf("Digite o nome do arquivo de operacoes: ");
             fgets(nomeArquivo, sizeof(nomeArquivo), stdin);
