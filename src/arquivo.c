@@ -7,11 +7,9 @@
 #include "../includes/playlist.h"
 #include "../includes/faixa.h"
 
-/*
- * Propósito: Remove espaços em branco do início e fim de uma string
- * Pré-condição: String válida
- * Pós-condição: String sem espaços extras
- */
+/* Propósito: remove espaços em branco do início e fim de uma string.
+ * Pré-condição: string válida.
+ * Pós-condição: string sem espaços extras*/
 void trim(char *str){
     if (str == NULL) return;
     
@@ -32,11 +30,9 @@ void trim(char *str){
     *(fim + 1) = '\0';
 }
 
-/*
- * Propósito: Carrega e executa operações em lote de um arquivo texto
- * Pré-condição: Arquivo existe e está no formato correto
- * Pós-condição: Operações executadas conforme arquivo
- */
+/* Propósito: carregar e executar operações em lote de um arquivo texto.
+ * Pré-condição: arquivo existe e está no formato correto (txt).
+ * Pós-condição: operações executadas conforme arquivo*/
 void carregarArquivo(char *nomeArquivo){
     FILE *arquivo;
     char linha[300];
