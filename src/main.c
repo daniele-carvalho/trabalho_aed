@@ -5,7 +5,12 @@
 #include "../includes/faixa.h"
 #include "../includes/arquivo.h"
 
+#include <locale.h>
+
 int main(){
+
+    setlocale(LC_ALL, "Portuguese");
+    
     int menu;
 
     do
@@ -86,11 +91,11 @@ int main(){
             int codigo;
             char titulo[51];
 
-            printf("Digite o codigo da playlist.\n");
+            printf("Digite o código da playlist.\n");
             scanf("%d", &codigo);
             scanf("%*c");
 
-            printf("Digite o titulo da playlist.\n");
+            printf("Digite o título da playlist.\n");
             fgets(titulo, sizeof(titulo), stdin);
             titulo[strcspn(titulo, "\n")] = '\0';
 
@@ -104,10 +109,10 @@ int main(){
         {
             int codPlaylist, codMusica;
 
-            printf("Digite o codigo da playlist.\n");
+            printf("Digite o código da playlist.\n");
             scanf("%d", &codPlaylist);
 
-            printf("Digite o codigo da musica.\n");
+            printf("Digite o código da música.\n");
             scanf("%d", &codMusica);
             scanf("%*c");
 
@@ -122,10 +127,10 @@ int main(){
         {
             int codPlaylist, codMusica;
 
-            printf("Digite o codigo da playlist.\n");
+            printf("Digite o código da playlist.\n");
             scanf("%d", &codPlaylist);
 
-            printf("Digite o codigo da musica.\n");
+            printf("Digite o código da música.\n");
             scanf("%d", &codMusica);
             scanf("%*c");
 
@@ -140,10 +145,10 @@ int main(){
         {
             int codPlaylist, codMusica;
 
-            printf("Digite o codigo da playlist.\n");
+            printf("Digite o código da playlist.\n");
             scanf("%d", &codPlaylist);
 
-            printf("Digite o codigo da musica.\n");
+            printf("Digite o código da música.\n");
             scanf("%d", &codMusica);
             scanf("%*c");
 
@@ -157,7 +162,7 @@ int main(){
         { 
             int codigo;
 
-            printf("Digite o codigo da playlist.\n");
+            printf("Digite o código da playlist.\n");
             scanf("%d", &codigo);
             scanf("%*c");
 
@@ -179,7 +184,7 @@ int main(){
         {
             char nomeArquivo[50];
             
-            printf("Digite o nome do arquivo de operacoes: ");
+            printf("Digite o nome do arquivo de operações: ");
             fgets(nomeArquivo, sizeof(nomeArquivo), stdin);
             nomeArquivo[strcspn(nomeArquivo, "\n")] = '\0';
             

@@ -13,7 +13,7 @@ typedef struct
 typedef struct
 {
     int codigo;
-    char titulo[51];
+    char titulo[50];
 
     int inicioFaixas;
     int fimFaixas;

@@ -12,21 +12,16 @@
  * Pós-condição: string sem espaços extras*/
 void trim(char *str){
     if (str == NULL) return;
-    
     char *inicio = str;
-    char *fim = str + strlen(str) - 1;
-    
-    // Remove espaços do início
-    while(isspace((unsigned char)*inicio)) inicio++;
-    
+    char *fim = str + strlen(str) - 1;    
+    while(isspace((unsigned char)*inicio)) inicio++; //remove espacos do inicio
+
     if(inicio != str){
         memmove(str, inicio, strlen(inicio) + 1);
     }
     
-    // Remove espaços do fim
     fim = str + strlen(str) - 1;
-    while(fim > str && isspace((unsigned char)*fim)) fim--;
-    
+    while(fim > str && isspace((unsigned char)*fim)) fim--; //remove espacos do fim
     *(fim + 1) = '\0';
 }
 
@@ -42,27 +37,25 @@ void carregarArquivo(char *nomeArquivo){
     arquivo = fopen(nomeArquivo, "r");
     
     if(arquivo == NULL){
-        printf("Erro: Nao foi possivel abrir o arquivo '%s'\n", nomeArquivo);
+        printf("Erro: arquivo '%s'\n", nomeArquivo);
         return;
     }
 
-    printf("\n===== PROCESSANDO ARQUIVO '%s' =====\n", nomeArquivo);
+    printf("\n              PROCESSANDO ARQUIVO '%s'                \n", nomeArquivo);
 
     while(fgets(linha, sizeof(linha), arquivo) != NULL){
         numLinha++;
         
-        // Remover quebra de linha
         linha[strcspn(linha, "\n")] = '\0';
-        
-        // Pular linhas vazias
-        if(strlen(linha) == 0) continue;
+
+        if(strlen(linha) == 0) continue; //pula linhas vazias
         
         char *token = strtok(linha, ";");
         if(token == NULL) continue;
         
         trim(token);
         
-        // Comando M: Cadastrar música
+        // comando m
         if(strcmp(token, "M") == 0){
             char *codigoStr = strtok(NULL, ";");
             char *titulo = strtok(NULL, ";");
@@ -78,15 +71,15 @@ void carregarArquivo(char *nomeArquivo){
                 int codigo = atoi(codigoStr);
                 int ano = atoi(anoStr);
                 
-                printf("Linha %d: Cadastrando musica '%s' (Cod: %d)...\n", 
+                printf("Linha %d: cadastrando música '%s' (Cod: %d)...\n", 
                        numLinha, titulo, codigo);
                 cadastrarMusica(codigo, titulo, artista, ano);
                 operacoesRealizadas++;
             }else{
-                printf("Linha %d: Formato invalido para cadastro de musica\n", numLinha);
+                printf("Linha %d: formato inválido para cadastro de música\n", numLinha);
             }
         }
-        // Comando P: Criar playlist
+        // comando p
         else if(strcmp(token, "P") == 0){
             char *codigoStr = strtok(NULL, ";");
             char *titulo = strtok(NULL, ";");
@@ -97,12 +90,12 @@ void carregarArquivo(char *nomeArquivo){
                 
                 int codigo = atoi(codigoStr);
                 
-                printf("Linha %d: Criando playlist '%s' (Cod: %d)...\n", 
+                printf("Linha %d: criando playlist '%s' (Cod: %d)...\n", 
                        numLinha, titulo, codigo);
                 criarPlaylist(codigo, titulo);
                 operacoesRealizadas++;
             }else{
-                printf("Linha %d: Formato invalido para criacao de playlist\n", numLinha);
+                printf("Linha %d: formato inválido para criação de playlist\n", numLinha);
             }
         }else if(strcmp(token, "I") == 0){
             char *posicao = strtok(NULL, ";");
@@ -118,19 +111,19 @@ void carregarArquivo(char *nomeArquivo){
                 int codMusica = atoi(musicaStr);
                 
                 if(strcmp(posicao, "I") == 0){
-                    printf("Linha %d: Inserindo musica %d no inicio da playlist %d...\n", 
+                    printf("Linha %d: Inserindo música %d no início da playlist %d...\n", 
                            numLinha, codMusica, codPlaylist);
                     adicionarMusicaInicio(codPlaylist, codMusica);
                 }else if(strcmp(posicao, "F") == 0){
-                    printf("Linha %d: Inserindo musica %d no fim da playlist %d...\n", 
+                    printf("Linha %d: Inserindo música %d no fim da playlist %d...\n", 
                            numLinha, codMusica, codPlaylist);
                     adicionarMusicaFim(codPlaylist, codMusica);
                 }else{
-                    printf("Linha %d: Posicao invalida (use I ou F)\n", numLinha);
+                    printf("Linha %d: Posicao inválida (use I ou F)\n", numLinha);
                 }
                 operacoesRealizadas++;
             }else{
-                printf("Linha %d: Formato invalido para insercao na playlist\n", numLinha);
+                printf("Linha %d: Formato inválido para inserção na playlist\n", numLinha);
             }
         }else if(strcmp(token, "R") == 0){
             char *playlistStr = strtok(NULL, ";");
@@ -143,12 +136,12 @@ void carregarArquivo(char *nomeArquivo){
                 int codPlaylist = atoi(playlistStr);
                 int codMusica = atoi(musicaStr);
                 
-                printf("Linha %d: Removendo musica %d da playlist %d...\n", 
+                printf("Linha %d: Removendo música %d da playlist %d...\n", 
                        numLinha, codMusica, codPlaylist);
                 removerMusicaPlaylist(codPlaylist, codMusica);
                 operacoesRealizadas++;
             }else{
-                printf("Linha %d: Formato invalido para remocao da playlist\n", numLinha);
+                printf("Linha %d: Formato inválido para remoção da playlist\n", numLinha);
             }
         }else{
             printf("Linha %d: Comando desconhecido '%s'\n", numLinha, token);
@@ -157,7 +150,7 @@ void carregarArquivo(char *nomeArquivo){
     
     fclose(arquivo);
     
-    printf("\n===== PROCESSAMENTO CONCLUIDO =====\n");
+    printf("\n              PROCESSAMENTO CONCLUIDO             \n");
     printf("Total de linhas processadas: %d\n", numLinha);
     printf("Operacoes realizadas: %d\n", operacoesRealizadas);
 }

@@ -8,8 +8,7 @@
 /*Objetivo: obter posição livre no arquivo de faixas.
  Pré condição: arquivo aberto em modo leitura/escrita e cabeçalho inicializado
  Pós condição: atualiza lista de nós livres ou incrementa topo na memória */
-int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
-{
+int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab){
     int pos;
     Faixa f;
 
@@ -22,11 +21,8 @@ int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
     pos = cab->livres;
 
     fseek(arq,sizeof(CabecalhoFaixa) + pos * sizeof(Faixa),SEEK_SET);
-
     fread(&f, sizeof(Faixa), 1, arq);
-
     cab->livres = f.prox;
-
     return pos;
 }
 
@@ -69,7 +65,6 @@ void adicionarMusicaInicio(int codPlaylist, int codMusica){
     fPlay = fopen("playlist.bin","r+b");
 
     fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
-
     fread(&p,sizeof(Playlist),1,fPlay);
 
     // Verificar se a música já está na playlist
@@ -337,13 +332,13 @@ void imprimirNosLivres(){
 
     pos = cab.livres;
 
-    printf("\n===== NOS LIVRES =====\n");
+    printf("\n              NÓS LIVRES              \n");
 
     if(pos == -1){
-        printf("Nenhum no livre disponivel.\n");
+        printf("Nenhum nó livre disponivel.\n");
     }else{
         while(pos != -1){
-            printf("Posicao: %d\n", pos);
+            printf("Posição: %d\n", pos);
             count++;
 
             fseek(arq,sizeof(CabecalhoFaixa) + pos * sizeof(Faixa),SEEK_SET);
@@ -351,7 +346,7 @@ void imprimirNosLivres(){
 
             pos = f.prox;
         }
-        printf("Total de nos livres: %d\n", count);
+        printf("Total de nós livres: %d\n", count);
     }
 
     fclose(arq);

@@ -10,8 +10,7 @@ typedef struct
     int livres;
 } CabecalhoFaixa;
 
-typedef struct
-{
+typedef struct{
     int codigoMusica;
     int prox;
 } Faixa;
