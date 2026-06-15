@@ -5,7 +5,10 @@
 #include "../includes/playlist.h"
 #include "../includes/musica.h"
 
-static int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
+/*Objetivo: obter posição livre no arquivo de faixas.
+ Pré condição: arquivo aberto em modo leitura/escrita e cabeçalho inicializado
+ Pós condição: atualiza lista de nós livres ou incrementa topo na memória */
+int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
 {
     int pos;
     Faixa f;
@@ -27,11 +30,6 @@ static int obterPosicaoLivre(FILE *arq, CabecalhoFaixa *cab)
     return pos;
 }
 
-/*
- * Propósito: Adiciona uma música no início da playlist
- * Pré-condição: Playlist e música existem
- * Pós-condição: Música adicionada no início da lista de faixas
- */
 void adicionarMusicaInicio(int codPlaylist, int codMusica){
     FILE *fFaixa;
     FILE *fPlay;
@@ -118,11 +116,9 @@ void adicionarMusicaInicio(int codPlaylist, int codMusica){
     printf("Musica inserida no inicio da playlist.\n");
 }
 
-/*
- * Propósito: Adiciona uma música no final da playlist
- * Pré-condição: Playlist e música existem
- * Pós-condição: Música adicionada no final da lista de faixas
- */
+/*Objetivo: adicionar uma música no fim de uma playlist..
+ Pré condição: adicionar códigos inteiros maiores que 0.
+ Pós condição: música adicionada na playlist. */
 void adicionarMusicaFim(int codPlaylist, int codMusica){
     FILE *fFaixa;
     FILE *fPlay;
@@ -215,11 +211,9 @@ void adicionarMusicaFim(int codPlaylist, int codMusica){
     printf("Musica inserida no fim da playlist.\n");
 }
 
-/*
- * Propósito: Remove uma música da playlist
- * Pré-condição: Playlist e música existem
- * Pós-condição: Música removida da playlist e nó adicionado à lista de livres
- */
+/*Objetivo: remover uma música de uma playlist específica.
+ Pré condição: código de playlist e de música maior que 0.
+ Pós condição: remove a música da playlist.*/
 void removerMusicaPlaylist(int codPlaylist, int codMusica){
     FILE *fFaixa;
     FILE *fPlay;
@@ -279,7 +273,6 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica){
         fclose(fFaixa);
         return;
     }
-
     // Remover o nó da lista
     if(posAnterior == -1){
         // Remover do início
@@ -324,11 +317,9 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica){
     printf("Musica removida da playlist com sucesso.\n");
 }
 
-/*
- * Propósito: Imprime os nós livres do arquivo de faixas
- * Pré-condição: Nenhuma
- * Pós-condição: Posições livres impressas na tela
- */
+/*Propósito: Imprime os nós livres do arquivo de faixas.
+ * Pré-condição: Nenhuma.
+ * Pós-condição: Posições livres impressas na tela*/
 void imprimirNosLivres(){
     FILE *arq;
     CabecalhoFaixa cab;
