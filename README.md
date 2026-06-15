@@ -14,15 +14,13 @@
 ## Como compilar e executar
 
 - Compilação direta: 
-
-<p>cd TRABALHO</p>
+- 
 <p>gcc -I./includes src/*.c -o playlist_manager -Wall</p>
 
 --- 
 
 - Compilação por arquivos:
-
-<p>cd TRABALHO</p>
+- 
 <p>gcc src/main.c src/musica.c src/playlist.c src/faixa.c src/arquivo.c</p>
 
 ---
