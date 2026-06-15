@@ -71,7 +71,7 @@ void cadastrarMusica(int codigo, char titulo[], char artista[], int ano) {
 
 /* Objetivo: verificar se uma música já existe no acervo.
  * Pré-condição: colocar um código inteiro>0.
- * Pós-condição: retorna -1 se a música existir. */
+ * Pós-condição: retorna a posição da música, se existir, ou -1, se não.*/
 int buscarMusica(int codigo){
     FILE *arq;
     estruturaMusica cab;
@@ -100,29 +100,28 @@ int buscarMusica(int codigo){
     return -1;
 }
 
+/* Objetivo: imprimir os dados da música, a partir do seu código.
+ * Pré-condição: colocar um código inteiro>0.
+ * Pós-condição: retorna os dados da música, como título, ano, artista e código.*/
 void imprimeDadosMusica(int codigo){
     FILE *arq;
     Musica m;
     int pos;
 
     pos = buscarMusica(codigo);
-
     if (pos == -1){
         printf("Música não encontrada.\n");
         return;
     }
 
     arq = fopen("musica.bin", "rb");
-
     if (arq == NULL){
         printf("Erro ao abrir arquivo.\n");
         return;
     }
-
     fseek(arq,sizeof(estruturaMusica) + pos * sizeof(Musica),SEEK_SET);
     fread(&m, sizeof(Musica), 1, arq);
-
-    printf("\n");
+    
     printf("Código : %d\n", m.codigo);
     printf("Título : %s\n", m.titulo);
     printf("Artista: %s\n", m.artista);
@@ -131,6 +130,9 @@ void imprimeDadosMusica(int codigo){
     fclose(arq);
 }
 
+/* Objetivo: imprimir todos os dados da música.
+ * Pré-condição: -
+ * Pós-condição: retorna todas as músicas do acervo.*/
 void listarAcervo(){
     FILE *arq;
     estruturaMusica cab;
@@ -138,14 +140,12 @@ void listarAcervo(){
     int pos;
 
     arq = fopen("musica.bin", "rb");
-
     if (arq == NULL){
         printf("Arquivo nao encontrado.\n");
         return;
     }
 
     fread(&cab, sizeof(estruturaMusica), 1, arq);
-
     if (cab.cabeca == -1){
         printf("Acervo vazio.\n");
         fclose(arq);
@@ -168,6 +168,5 @@ void listarAcervo(){
 
         pos = m.prox;
     }
-
     fclose(arq);
 }
