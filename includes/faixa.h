@@ -1,7 +1,5 @@
 #ifndef FAIXA_H
 #define FAIXA_H
-
-#include "playlist.h"
 #include "musica.h"
 
 typedef struct

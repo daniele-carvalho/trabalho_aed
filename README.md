@@ -15,12 +15,6 @@
 
 - Compilação direta: 
 
-<p>gcc -I./includes src/*.c -o playlist_manager -Wall</p>
-
---- 
-
-- Compilação por arquivos:
-
 <p>gcc src/main.c src/musica.c src/playlist.c src/faixa.c src/arquivo.c</p>
 
 ---
@@ -48,8 +42,8 @@
 - 05 - Adicionar uma música do acervo no final da playlist.
 <p>Função que adiciona música existente no acervo no final da playlist existente desejada. Basta digitar o código da playlist e o código da música. </p>
 
-- 06 - Adicionar uma música do acervo no final da playlist.
-<p>Função que adiciona uma música existente do acervo no final da playlist existente desejada. Basta digitar o código da playlist e o código da música.</p>
+- 06 - Adicionar uma música do acervo no início da playlist.
+<p>Função que adiciona uma música existente do acervo no início da playlist existente desejada. Basta digitar o código da playlist e o código da música.</p>
 
 - 07 - Remover uma música da playlist.
 <p>Função que remove uma música de uma playlist existente. Basta digitar o código da música e o código da playlist. </p>
@@ -68,3 +62,9 @@
         
 - 0 - Fechar menu.
 <p>Quando o usuário digita 0, o programa finaliza.</p>
+
+## Arquivos binários do programa.
+
+- musica.bin
+- playlist.bin
+- faixa.bin

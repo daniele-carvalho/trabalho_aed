@@ -67,7 +67,7 @@ void adicionarMusicaInicio(int codPlaylist, int codMusica){
     fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fread(&p,sizeof(Playlist),1,fPlay);
 
-    // Verificar se a música já está na playlist
+    // ver se a música já ta na playlist
     int posAtual = p.inicioFaixas;
     while(posAtual != -1 && !encontrou){
         fseek(fFaixa,sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),SEEK_SET);
@@ -151,7 +151,7 @@ void adicionarMusicaFim(int codPlaylist, int codMusica){
     fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fread(&p,sizeof(Playlist),1,fPlay);
 
-    // Verificar se a música já está na playlist
+    // ver se a música já tá na playlist
     int posAtual = p.inicioFaixas;
     while(posAtual != -1 && !encontrou){
         fseek(fFaixa,
@@ -247,7 +247,7 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica){
         return;
     }
 
-    // Buscar a música na playlist
+    // buscar música na playlist
     posAtual = p.inicioFaixas;
 
     while(posAtual != -1 && !encontrou){
@@ -268,15 +268,15 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica){
         fclose(fFaixa);
         return;
     }
-    // Remover o nó da lista
+    // remover nó da lista
     if(posAnterior == -1){
-        // Remover do início
+        // remover do início
         p.inicioFaixas = atual.prox;
         if(p.inicioFaixas == -1){
             p.fimFaixas = -1;
         }
     }else{
-        // Remover do meio ou fim
+        // remover do meio ou fim
         fseek(fFaixa,sizeof(CabecalhoFaixa) + posAnterior * sizeof(Faixa),SEEK_SET);
         fread(&anterior, sizeof(Faixa), 1, fFaixa);
         
@@ -290,7 +290,7 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica){
         }
     }
 
-    // Adicionar nó removido à lista de livres
+    // adicionar nó removido p/ lista de livres
     atual.prox = cab.livres;
     
     fseek(fFaixa,sizeof(CabecalhoFaixa) + posAtual * sizeof(Faixa),SEEK_SET);
@@ -298,11 +298,8 @@ void removerMusicaPlaylist(int codPlaylist, int codMusica){
     
     cab.livres = posAtual;
 
-    // Atualizar playlist
     fseek(fPlay,sizeof(estruturaPlaylist) + posPlaylist * sizeof(Playlist),SEEK_SET);
     fwrite(&p, sizeof(Playlist), 1, fPlay);
-
-    // Atualizar cabeçalho das faixas
     fseek(fFaixa, 0, SEEK_SET);
     fwrite(&cab, sizeof(CabecalhoFaixa), 1, fFaixa);
 
